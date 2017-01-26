@@ -1,0 +1,16 @@
+<?php
+$title = $this->translate('Стартовая панель');
+$this->headTitle($title);
+?>
+<?= $this->flashMessenger()->render('dashboard-success', ['alert', 'alert-success']); ?>
+<?= $this->flashMessenger()->render('dashboard-error', ['alert', 'alert-danger']); ?>
+<div class="row">
+    <div class="col-md-6 col-xs-12 ">
+        <h3 class="block-title"><?= $this->translate('Персонажи'); ?></h3>
+        <div class="block-area tile"><?= $this->characters; ?></div>
+    </div>
+    <div class="col-md-6 col-xs-12 ">
+        <h3 class="block-title"><?= $this->translate('Гильдии'); ?></h3>
+        <div class="block-area tile"><?= $this->guilds; ?></div>
+    </div>
+</div>

@@ -1,0 +1,115 @@
+<?php
+
+use Epos\SocialAuth\Entity\UserProviderInterface;
+use Epos\UserCore\InputFilter\ChangePasswordFilter;
+use Mmd\Account\Form\ChangePasswordForm;
+use Mmd\Account\Form\ProfileBaseForm;
+use Mmd\Account\InputFilter\ProfileBaseFilter;
+use Mmd\Account\View\Helper\BindSocialProvider;
+
+/** @var ProfileBaseForm $profileForm */
+/** @var ChangePasswordForm $changePasswordForm */
+/** @var UserProviderInterface[] $socialProviders */
+
+$title = $this->translate('Редактирование профиля');
+$this->headTitle($title);
+
+/** @var BindSocialProvider $attachSocialHelper */
+$attachSocialHelper = $this->attachSocialProviders();
+$attachSocialHelper->setUserProviders($socialProviders);
+?>
+
+<h3><?= $title; ?></h3>
+<?= $this->bootstrapAlerts(); ?>
+<div class="clearfix m-b-20"></div>
+
+<div class="col-md-6">
+    <?php $profileFormHelper = $this->mmdDefaultForm($profileForm); ?>
+    <form class="form-horizontal" action="<?= $this->url('profile/update-base'); ?>" method="POST">
+        <div class="tile">
+            <h2 class="tile-title"><?= $this->translate('Основная информация'); ?></h2>
+            <div class="media p-l-10 p-r-10 p-t-5 p-b-20">
+                <div class="form-group m-0 ">
+                    <div class="col-md-4">
+                        <?= $profileFormHelper->label(ProfileBaseFilter::EL_USERNAME, ['class' => 'control-label']); ?>
+                    </div>
+                    <div class="col-md-8">
+                        <?= $profileFormHelper->element(ProfileBaseFilter::EL_USERNAME, ['class' => 'form-control']); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-right">
+            <?= $profileFormHelper->element(ProfileBaseFilter::EL_SUBMIT, ['class' => 'btn btn-alt']); ?>
+        </div>
+    </form>
+    <div class="clearfix m-b-20"></div>
+    <?php $changePasswordFormHelper = $this->mmdDefaultForm($changePasswordForm); ?>
+    <form class="form-horizontal" action="<?= $this->url('profile/change-password'); ?>" method="POST">
+        <div class="tile">
+            <h2 class="tile-title"><?= $this->translate('Изменение пароля'); ?></h2>
+            <div class="media p-l-10 p-r-10 p-t-5 p-b-20">
+                <?php if ($changePasswordForm->has(ChangePasswordForm::EL_CURRENT_PASSWORD)) : ?>
+                    <div class="form-group m-0">
+                        <div class="col-md-4">
+                            <?= $changePasswordFormHelper->label(
+                                ChangePasswordForm::EL_CURRENT_PASSWORD,
+                                ['class' => 'control-label']
+                            ); ?>
+                        </div>
+                        <div class="col-md-8">
+                            <?= $changePasswordFormHelper->element(
+                                ChangePasswordForm::EL_CURRENT_PASSWORD,
+                                ['class' => 'form-control']
+                            ); ?>
+                        </div>
+                    </div>
+
+                    <hr class="whiter m-t-10 m-b-15">
+                <?php endif; ?>
+
+                <div class="form-group m-0">
+                    <div class="col-md-4">
+                        <?= $changePasswordFormHelper->label(
+                            [ChangePasswordForm::FIELDSET_CHANGE_PASSWORD, ChangePasswordFilter::EL_PASSWORD],
+                            ['class' => 'control-label']
+                        ); ?>
+                    </div>
+                    <div class="col-md-8">
+                        <?= $changePasswordFormHelper->element(
+                            [ChangePasswordForm::FIELDSET_CHANGE_PASSWORD, ChangePasswordFilter::EL_PASSWORD],
+                            ['class' => 'form-control']
+                        ); ?>
+                    </div>
+                </div>
+
+                <div class="form-group m-0 m-t-10">
+                    <div class="col-md-4">
+                        <?= $changePasswordFormHelper->label(
+                            [ChangePasswordForm::FIELDSET_CHANGE_PASSWORD, ChangePasswordFilter::EL_CONFIRM],
+                            ['class' => 'control-label']
+                        ); ?>
+                    </div>
+                    <div class="col-md-8">
+                        <?= $changePasswordFormHelper->element(
+                            [ChangePasswordForm::FIELDSET_CHANGE_PASSWORD, ChangePasswordFilter::EL_CONFIRM],
+                            ['class' => 'form-control']
+                        ); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-right">
+            <?= $changePasswordFormHelper->element(ChangePasswordForm::EL_SUBMIT, ['class' => 'btn btn-alt']); ?>
+        </div>
+    </form>
+    <div class="clearfix m-t-10 m-b-10"></div>
+</div>
+<div class="col-md-6">
+    <div class="tile">
+        <h2 class="tile-title"><?= $this->translate('Социальные сети'); ?></h2>
+        <div class="media p-l-10 p-r-10 p-b-10">
+            <?= $attachSocialHelper->render('mmd-account/profile/attach-social-providers-block'); ?>
+        </div>
+    </div>
+</div>

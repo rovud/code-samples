@@ -1,0 +1,41 @@
+<?php
+
+use Mmd\Feed\Entity\Post\GuildPost;
+
+/** @var GuildPost[] $feed */
+?>
+<div class="s-widget m-b-15">
+    <h2 class="tile-title"><?= $this->translate('Новости гильдий'); ?></h2>
+    <div class="s-widget-body">
+        <?php if (empty($feed)) : ?>
+            <div class="text-muted">
+                <?= $this->translate('Тут будут показаны свежие новости Ваших гильдий'); ?>
+            </div>
+        <?php else: ?>
+            <ul class="s-feed list-unstyled">
+                <?php foreach ($feed as $post) : ?>
+                    <li class="m-b-10 s-feed-item">
+                        <div class="item-title">
+                            <a href="#"
+                               class="popup-request"
+                               data-modal-id="s-widget-feed-post-modal"
+                               data-request-url="<?= $this->url(
+                                   'guild/feed/post',
+                                   [
+                                       'id'      => $post->getGuild()->getId(),
+                                       'post_id' => $post->getId(),
+                                   ]
+                               ); ?>">
+                                <?= $this->escapeHtml($post->getTitle()); ?>
+                            </a>
+                        </div>
+                        <small class="item-meta text-muted">
+                            <?= $this->escapeHtml($post->getGuild()->getName()); ?>
+                        </small>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+    </div>
+    <div class="modal fade" id="s-widget-feed-post-modal" role="dialog"></div>
+</div>

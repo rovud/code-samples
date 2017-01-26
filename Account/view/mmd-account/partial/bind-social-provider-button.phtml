@@ -1,0 +1,13 @@
+<?php
+
+use Epos\SocialAuth\View\Dto\SocialProviderTo;
+
+/** @var SocialProviderTo $provider */
+?>
+<a class="account-item text-muted"
+   title="<?= sprintf('%s %s', $this->translate('Подключить'), $provider->getLabel()); ?>"
+   href="<?= $provider->getUrl(); ?>">
+    <span class="fa <?= $provider->getClass(); ?> social-icon m-r-10"></span>
+    <span class="social-label"><?= $provider->getLabel(); ?></span>
+    <span class="pull-right attach-cta-label"><?= $this->translate('Подключить'); ?></span>
+</a>

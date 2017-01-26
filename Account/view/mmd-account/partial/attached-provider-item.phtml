@@ -1,0 +1,20 @@
+<?php
+
+use Mmd\Account\Entity\AttachedSocialProviderTo;
+
+/** @var AttachedSocialProviderTo $provider */
+$fullName = trim(sprintf('%s %s', $provider->getProfile()->getFirstName(), $provider->getProfile()->getLastName()));
+?>
+<div class="account-item">
+    <span class="fa <?= $provider->getClass(); ?> social-icon m-r-10"></span>
+    <span class="social-label"><?= $fullName ?: $provider->getLabel(); ?></span>
+    <?php if ($provider->isPrimary()) : ?>
+        <span class="pull-right attach-cta-label text-muted">
+            <?= $this->translate('Вы зарегистрированы через эту сеть'); ?>
+        </span>
+    <?php else : ?>
+        <a href="<?= $provider->getUrl(); ?>" class="pull-right">
+            <?= $this->translate('Отключить'); ?>
+        </a>
+    <?php endif; ?>
+</div>

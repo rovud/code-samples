@@ -1,0 +1,36 @@
+<?php
+
+use Mmd\Auction\Entity\Auction;
+use Mmd\Event\Entity\Raid;
+
+/** @var Auction[] $feed */
+?>
+<div class="s-widget m-b-15">
+    <h2 class="tile-title"><?= $this->translate('Ближайшие аукционы'); ?></h2>
+    <div class="s-widget-body">
+        <?php if (empty($feed)) : ?>
+            <div class="text-muted">
+                <?= $this->translate('Тут будут показаны ближайшие аукционы Ваших гильдий'); ?>
+            </div>
+        <?php else: ?>
+            <ul class="s-feed list-unstyled">
+                <?php foreach ($feed as $auction) : ?>
+                    <li class="m-b-10 s-feed-item">
+                        <div class="item-title">
+                            <a href="<?= $this->url('guild/auction.details', ['id' => $auction->getId(),]); ?>">
+                                <?= $this->escapeHtml($auction->getItems()->first()->getName()); ?>
+                            </a>
+                        </div>
+                        <small class="item-meta text-muted">
+                            <span class="fa m-r-5 fa-calendar"></span>
+                            <?= $auction->getDate()->format('d.m.Y, H:i'); ?>
+                        </small>
+                        <small class="item-meta text-muted">
+                            <?= $this->escapeHtml($auction->getGuild()->getName()); ?>
+                        </small>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
+    </div>
+</div>
